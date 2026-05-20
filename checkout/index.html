@@ -226,7 +226,142 @@ h1{margin:0;font-size:22px;line-height:1.08;color:#111827}
 }
 .pix-button:active{transform:translateY(1px)}
 .pay-note{margin:10px 0 0;text-align:center;color:#4b5563;font-size:14px}.pay-note strong{color:#111827}
-.pix-placeholder,.pix-result{margin-top:13px;padding:14px;border:1px solid #bbf7d0;border-radius:13px;background:#f0fdf4;color:#14532d;text-align:center}.pix-result h3{margin:0 0 8px;color:#14532d;font-size:18px}.pix-result p{margin:7px 0}.pix-result img{width:210px;max-width:100%;height:auto;margin:8px auto;border-radius:12px;background:#fff;padding:10px;border:1px solid #dcfce7}.pix-copy{width:100%;min-height:92px;margin-top:9px;padding:10px;border:1px solid #86efac;border-radius:10px;background:#fff;color:#111827;font-size:12px;resize:none}.copy-pix-button{width:100%;min-height:46px;margin-top:9px;border:0;border-radius:12px;background:#16a34a;color:#fff;font-weight:900;cursor:pointer}.pix-error{margin-top:13px;padding:14px;border:1px solid #fecaca;border-radius:13px;background:#fef2f2;color:#991b1b;text-align:center;font-weight:800}
+.pix-placeholder{margin-top:13px;padding:14px;border:1px solid #bbf7d0;border-radius:13px;background:#f0fdf4;color:#14532d;text-align:center}
+.pix-error{margin-top:13px;padding:14px;border:1px solid #fecaca;border-radius:13px;background:#fef2f2;color:#991b1b;text-align:center;font-weight:800}
+
+/* ── PIX RESULT — nova área pós-geração ── */
+.pix-result{margin-top:14px;}
+
+/* strip urgência */
+.pix-urgency-strip{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 14px;border-radius:13px 13px 0 0;
+  background:linear-gradient(90deg,#f97316,#ef4444);
+  color:#fff;font-weight:900;font-size:14px;text-align:center;
+}
+.pix-urgency-strip span{font-variant-numeric:tabular-nums;}
+
+/* card qr */
+.pix-main-card{
+  background:#fff;border:1px solid #bbf7d0;border-top:0;
+  border-radius:0 0 16px 16px;
+  padding:20px 16px 18px;
+  text-align:center;
+}
+.pix-success-title{
+  margin:0 0 4px;font-size:19px;font-weight:900;color:#14532d;
+}
+.pix-success-subtitle{
+  margin:0 0 16px;color:#4b5563;font-size:14px;
+}
+
+/* qr wrapper */
+.pix-qr-wrapper{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:12px;background:#fff;
+  border:3px solid #16a34a;border-radius:18px;
+  box-shadow:0 8px 28px rgba(22,163,74,.20);
+  margin-bottom:16px;
+}
+.pix-qr-wrapper img{
+  width:260px;max-width:min(260px,72vw);height:auto;display:block;border-radius:8px;
+}
+
+/* passos */
+.pix-steps{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+  margin-bottom:16px;
+}
+.pix-step{
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:10px 6px;border-radius:12px;background:#f0fdf4;border:1px solid #bbf7d0;
+}
+.pix-step-num{
+  width:24px;height:24px;border-radius:50%;background:#16a34a;color:#fff;
+  font-weight:900;font-size:12px;display:grid;place-items:center;flex-shrink:0;
+}
+.pix-step p{margin:0;font-size:11px;font-weight:800;color:#166534;line-height:1.3;text-align:center;}
+
+/* código copia-e-cola */
+.pix-code-block{
+  position:relative;
+  background:#f8fafc;border:1.5px solid #d1d5db;border-radius:12px;
+  padding:12px 50px 12px 14px;
+  text-align:left;margin-bottom:12px;
+  word-break:break-all;
+  font-family:monospace;font-size:12px;color:#374151;
+  line-height:1.5;max-height:72px;overflow:hidden;
+}
+.pix-copy-inline{
+  position:absolute;top:50%;right:10px;transform:translateY(-50%);
+  border:0;border-radius:8px;background:#16a34a;color:#fff;
+  font-size:11px;font-weight:900;padding:6px 10px;cursor:pointer;white-space:nowrap;
+}
+.pix-copy-btn-full{
+  width:100%;min-height:50px;border:0;border-radius:12px;
+  background:linear-gradient(180deg,#34d399,#16a34a);color:#fff;
+  font-weight:900;font-size:16px;cursor:pointer;
+  box-shadow:0 8px 20px rgba(22,163,74,.24);
+  margin-bottom:14px;
+}
+
+/* status aguardando */
+.pix-status{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:11px 14px;border-radius:12px;
+  background:#fefce8;border:1px solid #fde68a;
+  color:#92400e;font-weight:800;font-size:14px;
+  margin-bottom:14px;
+}
+.pix-status-dot{
+  width:11px;height:11px;border-radius:50%;background:#f59e0b;flex-shrink:0;
+  animation:waitPulse 1.4s ease-in-out infinite;
+}
+@keyframes waitPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.5);}
+  50%{box-shadow:0 0 0 7px rgba(245,158,11,0);}
+}
+
+/* status pago */
+.pix-paid-screen{
+  text-align:center;padding:28px 16px 22px;
+  background:linear-gradient(160deg,#f0fdf4,#dcfce7);
+  border:1px solid #86efac;border-radius:16px;
+  margin-top:14px;
+}
+.pix-paid-icon{font-size:52px;line-height:1;margin-bottom:10px;}
+.pix-paid-screen h3{margin:0 0 6px;font-size:22px;color:#14532d;}
+.pix-paid-screen p{margin:0 0 4px;color:#166534;font-size:15px;}
+
+/* upload comprovante */
+.pix-comprovante{
+  margin-top:14px;padding:16px;
+  border:2px dashed #86efac;border-radius:14px;
+  background:#f0fdf4;text-align:center;
+}
+.pix-comprovante p{margin:0 0 10px;color:#166534;font-size:14px;font-weight:800;}
+.pix-upload-label{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:10px 18px;border-radius:10px;
+  background:#fff;border:1.5px solid #86efac;
+  color:#16a34a;font-weight:900;font-size:14px;cursor:pointer;
+}
+.pix-upload-label:hover{background:#f0fdf4;}
+.pix-upload-input{display:none;}
+.pix-comprovante-preview{
+  margin-top:12px;display:none;
+}
+.pix-comprovante-preview img{
+  width:100%;max-width:280px;border-radius:12px;
+  border:2px solid #86efac;box-shadow:0 6px 18px rgba(22,163,74,.15);
+}
+.pix-comprovante-ok{
+  display:none;margin-top:10px;
+  padding:10px 14px;border-radius:10px;
+  background:#dcfce7;border:1px solid #86efac;
+  color:#14532d;font-weight:900;font-size:14px;
+}
+
 .reviews-section{margin-top:16px;padding:16px;overflow:hidden}
 .section-heading p{margin:0 0 3px;color:var(--green-dark);font-weight:900;text-transform:uppercase;font-size:12px;letter-spacing:.04em}
 .section-heading h2{margin:0 0 12px;font-size:21px;color:#111827}
@@ -236,11 +371,12 @@ h1{margin:0;font-size:22px;line-height:1.08;color:#111827}
 .site-footer{padding:8px 16px 28px;text-align:center;color:#6b7280;font-size:12px}
 @media (min-width:640px){
   .page-shell{padding-left:18px;padding-right:18px}.product-line{grid-template-columns:150px 1fr;padding:20px}.product-photo{min-height:146px}h1{font-size:29px}.step-card{padding:22px}.address-grid,.customer-grid{grid-template-columns:1fr 1fr;column-gap:12px}.field.full{grid-column:1/-1}.reviews-track{grid-auto-columns:minmax(240px,1fr)}
+  .pix-qr-wrapper img{width:280px;}
+  .pix-step p{font-size:12px;}
 }
-@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}.attention:not(.valid) input{animation:none}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}.attention:not(.valid) input{animation:none}.pix-status-dot{animation:none}}
 
-
-/* Blindagem para quando o projeto principal tiver estilos globais fortes */
+/* Blindagem */
 html.checkout-page body.checkout-body .secure-topbar,
 html.checkout-page body.checkout-body .checkout-header,
 html.checkout-page body.checkout-body .delivery-banner,
@@ -251,27 +387,15 @@ html.checkout-page body.checkout-body .brand-logo:not([src]),
 html.checkout-page body.checkout-body .brand-logo[src=""]{display:none;}
 html.checkout-page body.checkout-body .brand-logo.broken + .checkout-brand-fallback{display:block;}
 
-
-/* Ajustes solicitados: topo fixo de entrega, produto menor e avaliações padrão Google */
+/* Ajustes solicitados */
 .secure-topbar.delivery-top-pill{
-  position:fixed !important;
-  top:10px !important;
-  left:50% !important;
-  transform:translateX(-50%);
-  z-index:9999 !important;
-  width:calc(100% - 24px);
-  max-width:520px;
-  min-height:44px;
-  padding:9px 16px;
-  border:1px solid rgba(255,122,0,.28);
-  border-radius:999px;
-  color:#7c2d12;
+  position:fixed !important;top:10px !important;left:50% !important;
+  transform:translateX(-50%);z-index:9999 !important;
+  width:calc(100% - 24px);max-width:520px;min-height:44px;padding:9px 16px;
+  border:1px solid rgba(255,122,0,.28);border-radius:999px;color:#7c2d12;
   background:rgba(255,247,237,.96);
   box-shadow:0 12px 28px rgba(255,122,0,.22), inset 0 0 0 1px rgba(255,255,255,.8);
-  backdrop-filter:blur(10px);
-  text-transform:none;
-  letter-spacing:0;
-  font-size:15px;
+  backdrop-filter:blur(10px);text-transform:none;letter-spacing:0;font-size:15px;
   animation:topPillFloat 2.4s ease-in-out infinite;
 }
 .delivery-dot{width:12px;height:12px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 0 rgba(34,197,94,.55);animation:deliveryPulse 1.25s infinite;}
@@ -305,7 +429,6 @@ h1{font-size:19px;}
 @keyframes topPillFloat{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(2px)}}
 @keyframes cityBlink{0%,100%{filter:brightness(1);transform:scale(1)}50%{filter:brightness(1.16);transform:scale(1.04)}}
 @media (min-width:640px){.product-line{grid-template-columns:100px 1fr;padding:14px}.product-photo{height:96px;min-height:96px}h1{font-size:24px}.brand-logo{width:min(190px,42vw)}}
-
   </style>
 </head>
 <body class="checkout-body">
@@ -317,8 +440,6 @@ h1{font-size:19px;}
   <header class="checkout-header">
     <div class="checkout-brand-fallback">Botanique Floricultura</div>
   </header>
-
-  <!-- Tag de entrega movida para o topo fixo -->
 
   <main class="page-shell">
     <section class="hero-card" aria-label="Resumo da oferta">
@@ -491,7 +612,6 @@ h1{font-size:19px;}
 
         <!-- PIX INTEGRATION AREA -->
         <div id="pix-box">
-          <!-- COLAR AQUI SCRIPT OU URL DE GERAÇÃO DE PIX -->
           <div class="pix-placeholder" hidden id="pixPlaceholder">
             <strong>Área de integração PIX</strong>
             <p>O QR Code e o código copia e cola aparecerão aqui após clicar no botão.</p>
@@ -531,17 +651,21 @@ h1{font-size:19px;}
   </footer>
 
   <script>
-const URL_LOGO_BOTANIQUE = "/checkout/assets/logo.webp"; // Caminho absoluto da rota /checkout para funcionar sem barra final.
-const URL_FOTO_MUDA = "/botanique/blob/main/img/IMG-23.webp"; // Caminho absoluto da rota /checkout para funcionar sem barra final.
+const URL_LOGO_BOTANIQUE = "/checkout/assets/logo.webp";
+const URL_FOTO_MUDA = "/botanique/blob/main/img/IMG-23.webp";
 const redirectAfterPayment = "COLOCAR_URL_AQUI";
 const URL_PIX_COM_FRETE = "./index.html#pix-com-frete";
 const URL_PIX_SEM_FRETE = "./index.html#pix-sem-frete";
 const PRODUCT_PRICE = 47.90;
 let freteSelecionado = null;
 
+// Polling
+let _pixExternalId = null;
+let _pollingInterval = null;
+let _pixPago = false;
+
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => Array.from(scope.querySelectorAll(selector));
-
 
 function setupEditableImages(){
   const logo = $('#brandLogo');
@@ -687,9 +811,7 @@ function showCheckoutAlert(message){
   if(!alert) return;
   alert.textContent = message;
   alert.hidden = false;
-  setTimeout(() => {
-    alert.hidden = true;
-  }, 3500);
+  setTimeout(() => { alert.hidden = true; }, 3500);
 }
 
 function getPixPayload(){
@@ -730,6 +852,87 @@ function getTrackingParams(){
   }, {});
 }
 
+/* ── POLLING: verifica status do PIX a cada 5s ── */
+function startPixPolling(externalId){
+  if(_pollingInterval) clearInterval(_pollingInterval);
+  _pixExternalId = externalId;
+  _pollingInterval = setInterval(async () => {
+    if(_pixPago) { clearInterval(_pollingInterval); return; }
+    try{
+      const res = await fetch(`/api/pix-status?external_id=${encodeURIComponent(externalId)}`);
+      if(!res.ok) return;
+      const json = await res.json();
+      const status = (json && json.data && json.data.status) ? json.data.status : null;
+      if(status === 'paid'){
+        _pixPago = true;
+        clearInterval(_pollingInterval);
+        renderPixPago();
+      }
+    }catch(e){}
+  }, 5000);
+}
+
+/* ── Timer do PIX (30 min) ── */
+function startPixTimer(){
+  let secs = 30 * 60;
+  const el = $('#pixTimerVal');
+  if(!el) return;
+  const iv = setInterval(() => {
+    if(_pixPago){ clearInterval(iv); return; }
+    secs = Math.max(0, secs - 1);
+    const m = String(Math.floor(secs / 60)).padStart(2,'0');
+    const s = String(secs % 60).padStart(2,'0');
+    if(el) el.textContent = `${m}:${s}`;
+    if(secs === 0) clearInterval(iv);
+  }, 1000);
+}
+
+/* ── Upload comprovante (emocional) ── */
+function setupComprovanteUpload(){
+  const input = $('#comprovanteInput');
+  if(!input) return;
+  input.addEventListener('change', () => {
+    const file = input.files && input.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const preview = $('#comprovantePreview');
+      const ok = $('#comprovanteOk');
+      const img = preview && preview.querySelector('img');
+      if(img) img.src = e.target.result;
+      if(preview) preview.style.display = 'block';
+      if(ok) ok.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ── Tela PIX pago ── */
+function renderPixPago(){
+  const box = $('#pix-box');
+  if(!box) return;
+  // Substitui só o bloco de status, mantém o card do QR intacto visualmente
+  const statusEl = box.querySelector('.pix-status');
+  if(statusEl){
+    statusEl.innerHTML = `<span style="font-size:18px;">✅</span> <span style="color:#14532d;font-weight:900;">PIX confirmado! Pedido em separação.</span>`;
+    statusEl.style.background = '#dcfce7';
+    statusEl.style.borderColor = '#86efac';
+    statusEl.style.color = '#14532d';
+  }
+  const dot = box.querySelector('.pix-status-dot');
+  if(dot){ dot.style.background = '#16a34a'; dot.style.animation = 'none'; }
+  const strip = box.querySelector('.pix-urgency-strip');
+  if(strip){
+    strip.style.background = 'linear-gradient(90deg,#16a34a,#15803d)';
+    strip.innerHTML = '✅ Pagamento confirmado — seu pedido está sendo preparado!';
+  }
+  // Esconde bloco de comprovante pois não é mais necessário
+  const comp = box.querySelector('.pix-comprovante');
+  if(comp) comp.style.display = 'none';
+  box.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+/* ── Render principal do PIX ── */
 function renderPixSuccess(data){
   // META PIXEL: PIX gerado com sucesso = Purchase
   if(typeof fbq !== 'undefined'){
@@ -746,33 +949,109 @@ function renderPixSuccess(data){
   const pix = data && data.pix ? data.pix : {};
   const code = pix.code || '';
   const qrcode = pix.qrcode_base64 || '';
+  // Captura o external_id retornado pelo backend para o polling
+  const externalId = (data && data.id) ? data.id : null;
 
   box.innerHTML = `
     <div class="pix-result" role="status" aria-live="polite">
-      <h3>PIX gerado com sucesso</h3>
-      <p>Valor: <strong>R$ 47,90</strong></p>
-      ${qrcode ? `<img src="data:image/png;base64,${qrcode}" alt="QR Code PIX para pagamento">` : ''}
-      <p>Copie o código abaixo e pague no aplicativo do seu banco.</p>
-      <textarea class="pix-copy" id="pixCopyCode" readonly>${code}</textarea>
-      <button class="copy-pix-button" type="button" id="copyPixButton">COPIAR CÓDIGO PIX</button>
-    </div>
+
+      <!-- Strip urgência com timer -->
+      <div class="pix-urgency-strip">
+        ⏱ PIX válido por <span id="pixTimerVal">30:00</span> — Pague agora para garantir entrega amanhã
+      </div>
+
+      <!-- Card principal -->
+      <div class="pix-main-card">
+        <p class="pix-success-title">✅ PIX gerado com sucesso!</p>
+        <p class="pix-success-subtitle">Escaneie o QR Code ou copie o código abaixo</p>
+
+        <!-- QR Code grande -->
+        ${qrcode
+          ? `<div class="pix-qr-wrapper"><img src="data:image/png;base64,${qrcode}" alt="QR Code PIX"></div>`
+          : ''}
+
+        <!-- Passos 1-2-3 -->
+        <div class="pix-steps">
+          <div class="pix-step">
+            <div class="pix-step-num">1</div>
+            <p>Abra o app do seu banco</p>
+          </div>
+          <div class="pix-step">
+            <div class="pix-step-num">2</div>
+            <p>Escolha PIX → Copia e Cola</p>
+          </div>
+          <div class="pix-step">
+            <div class="pix-step-num">3</div>
+            <p>Cole o código e confirme</p>
+          </div>
+        </div>
+
+        <!-- Código copia-e-cola -->
+        <div class="pix-code-block" id="pixCodeBlock">
+          <span id="pixCodeText">${code}</span>
+          <button class="pix-copy-inline" type="button" id="pixCopyInline">Copiar</button>
+        </div>
+        <button class="pix-copy-btn-full" type="button" id="pixCopyFull">📋 COPIAR CÓDIGO PIX</button>
+
+        <!-- Status aguardando -->
+        <div class="pix-status" id="pixStatus">
+          <span class="pix-status-dot"></span>
+          Aguardando confirmação do pagamento…
+        </div>
+
+        <!-- Upload comprovante -->
+        <div class="pix-comprovante" id="pixComprovante">
+          <p>📎 Já pagou? Envie o comprovante para agilizar sua entrega</p>
+          <label class="pix-upload-label" for="comprovanteInput">
+            📷 Selecionar comprovante
+          </label>
+          <input type="file" id="comprovanteInput" class="pix-upload-input" accept="image/*,application/pdf">
+          <div class="pix-comprovante-preview" id="comprovantePreview">
+            <img src="" alt="Prévia do comprovante">
+          </div>
+          <div class="pix-comprovante-ok" id="comprovanteOk">
+            ✅ Comprovante recebido! Nossa equipe irá confirmar em breve.
+          </div>
+        </div>
+
+      </div><!-- fim pix-main-card -->
+    </div><!-- fim pix-result -->
   `;
 
-  const copyButton = $('#copyPixButton');
-  if(copyButton){
-    copyButton.addEventListener('click', async () => {
-      try{
-        await navigator.clipboard.writeText(code);
-        copyButton.textContent = 'CÓDIGO COPIADO';
-      }catch(error){
-        $('#pixCopyCode').select();
-        document.execCommand('copy');
-        copyButton.textContent = 'CÓDIGO COPIADO';
-      }
-    });
+  // Eventos dos botões de cópia
+  const copyInline = $('#pixCopyInline');
+  const copyFull = $('#pixCopyFull');
+  async function doCopy(){
+    try{
+      await navigator.clipboard.writeText(code);
+    }catch(e){
+      const ta = document.createElement('textarea');
+      ta.value = code; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    if(copyInline) copyInline.textContent = '✓ Copiado';
+    if(copyFull){ copyFull.textContent = '✅ CÓDIGO COPIADO!'; copyFull.style.background = '#166534'; }
+    setTimeout(() => {
+      if(copyInline) copyInline.textContent = 'Copiar';
+      if(copyFull){ copyFull.textContent = '📋 COPIAR CÓDIGO PIX'; copyFull.style.background = ''; }
+    }, 3000);
+  }
+  if(copyInline) copyInline.addEventListener('click', doCopy);
+  if(copyFull) copyFull.addEventListener('click', doCopy);
+
+  // Timer do PIX
+  startPixTimer();
+
+  // Upload emocional
+  setupComprovanteUpload();
+
+  // Polling de status (usa external_id se disponível)
+  if(externalId){
+    startPixPolling(externalId);
   }
 
-  box.scrollIntoView({behavior:'smooth',block:'center'});
+  box.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
 function renderPixError(message){
@@ -925,7 +1204,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderPixFromHash();
   window.addEventListener('hashchange', renderPixFromHash);
 });
-
   </script>
 </body>
 </html>
