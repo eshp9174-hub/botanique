@@ -1,0 +1,819 @@
+<!doctype html>
+<html lang="pt-BR" class="checkout-page">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#16a34a">
+  <meta name="description" content="Checkout Botanique Floricultura para Muda de Lichia Precoce com entrega no dia seguinte.">
+  <title>Checkout | Botanique Floricultura</title>
+  <link rel="preload" href="/checkout/assets/logo.webp" as="image">
+  <style>
+html.checkout-page, html.checkout-page body{width:100%;min-height:100%;}
+:root{
+  --orange:#ff7a00;
+  --orange-dark:#d95f00;
+  --green:#22c55e;
+  --green-dark:#16a34a;
+  --blue:#2563eb;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --line:#e5e7eb;
+  --soft:#f8fafc;
+  --white:#ffffff;
+  --danger:#dc2626;
+  --shadow:0 14px 35px rgba(15,23,42,.10);
+  --radius:18px;
+}
+html.checkout-page *{box-sizing:border-box}
+html.checkout-page body.checkout-body{display:block !important; width:100% !important; max-width:none !important; min-height:100vh !important; overflow-x:hidden !important;}
+html.checkout-page img{max-width:100%;}
+html.checkout-page button, html.checkout-page input{appearance:auto;}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--text);
+  background:linear-gradient(180deg,#fff7ed 0%,#f8fafc 190px,#eef2f7 100%);
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:16px;
+  line-height:1.45;
+}
+button,input{font:inherit}
+.secure-topbar{
+  position:sticky;
+  top:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:36px;
+  padding:8px 14px;
+  color:#065f46;
+  background:#ecfdf5;
+  border-bottom:1px solid #bbf7d0;
+  font-size:13px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+}
+.lock{font-size:10px;color:var(--green-dark)}
+.checkout-header{
+  display:flex;
+  justify-content:center;
+  padding:15px 18px 12px;
+  background:rgba(255,255,255,.76);
+  backdrop-filter:blur(10px);
+}
+.brand-logo{
+  width:min(210px,56vw);
+  height:auto;
+  object-fit:contain;
+  display:block;
+}
+.delivery-banner{
+  position:sticky;
+  top:36px;
+  z-index:19;
+  margin:0 auto;
+  padding:11px 14px;
+  color:#fff;
+  background:linear-gradient(90deg,var(--orange),#ff9f1c);
+  text-align:center;
+  font-weight:900;
+  box-shadow:0 10px 25px rgba(255,122,0,.22);
+}
+.bf-city{font-weight:900;text-decoration:underline;text-underline-offset:3px}
+.page-shell{
+  width:min(760px,100%);
+  margin:0 auto;
+  padding:14px 12px 38px;
+}
+.hero-card,.step-card,.reviews-section{
+  background:var(--white);
+  border:1px solid rgba(229,231,235,.9);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+.hero-card{overflow:hidden;margin-bottom:14px}
+.timer-strip{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:10px 12px;
+  color:#fff;
+  background:linear-gradient(90deg,#ef4444,#f97316);
+  font-size:14px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.timer-strip strong{font-variant-numeric:tabular-nums;color:#fff7ed}
+.product-line{display:grid;grid-template-columns:110px 1fr;gap:14px;padding:15px}
+.product-photo{
+  min-height:118px;
+  border-radius:16px;
+  background:radial-gradient(circle at 50% 28%,#bbf7d0 0,#86efac 18%,#22c55e 42%,#166534 100%);
+  display:flex;
+  align-items:end;
+  justify-content:center;
+  padding:10px;
+  color:#fff;
+  text-align:center;
+  font-size:13px;
+  font-weight:900;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);
+}
+.eyebrow{margin:0 0 4px;color:var(--green-dark);font-size:13px;font-weight:900;text-transform:uppercase}
+h1{margin:0;font-size:22px;line-height:1.08;color:#111827}
+.subtitle{margin:6px 0 10px;color:var(--muted);font-size:15px}
+.price-row{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.old-price{color:#9ca3af;text-decoration:line-through;font-size:14px}
+.price-row strong{font-size:27px;color:var(--green-dark)}
+.stock-note{margin:6px 0 0;color:#92400e;font-weight:800;font-size:13px}
+.progress{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 8px;
+  margin:0 0 14px;
+}
+.progress-item{display:grid;justify-items:center;gap:4px;min-width:64px;color:#9ca3af}
+.progress-item span{
+  width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
+  background:#d1d5db;color:#fff;font-size:15px;font-weight:900;
+}
+.progress-item p{margin:0;font-size:12px;font-weight:800}
+.progress-item.active,.progress-item.done{color:var(--orange-dark)}
+.progress-item.active span,.progress-item.done span{background:var(--orange)}
+.progress-line{height:3px;width:54px;background:#d1d5db;border-radius:20px}
+.checkout-form{display:grid;gap:14px}
+.step-card{padding:16px;transition:opacity .22s ease,transform .22s ease}
+.step-card.locked{opacity:.62}
+.step-card.locked .field,.step-card.locked .shipping-box,.step-card.locked .summary-card,.step-card.locked .pix-button,.step-card.locked .pay-note{display:none}
+.step-title{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+.step-title>span{flex:0 0 31px;height:31px;border-radius:50%;display:grid;place-items:center;background:#ede9fe;color:#6d28d9;font-weight:900}
+.step-title h2{margin:0 0 3px;font-size:20px;color:#111827}
+.step-title p{margin:0;color:var(--muted);font-size:14px}
+.field{display:grid;gap:7px;margin-bottom:12px}
+.field span{font-weight:800;font-size:15px;color:#374151}
+.field input{
+  width:100%;min-height:52px;padding:14px 13px;border:1.5px solid #d1d5db;border-radius:12px;background:#fff;color:#111827;outline:none;
+  transition:border-color .18s,box-shadow .18s,background .18s;
+}
+.field input:focus{border-color:var(--orange);box-shadow:0 0 0 4px rgba(255,122,0,.12)}
+.field input:read-only{background:#f9fafb;color:#4b5563}
+.field.valid input{border-color:#86efac;background:#f0fdf4}
+.field.invalid input{border-color:var(--danger);background:#fef2f2}
+.field-message{color:#6b7280;font-size:12px;font-weight:700}
+.attention:not(.valid) input{animation:pulseGlow 1.35s ease-in-out infinite}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(255,122,0,.16)}50%{box-shadow:0 0 0 6px rgba(255,122,0,.09)}}
+.address-grid,.customer-grid{display:grid;gap:0}
+.shipping-box{display:grid;gap:10px;margin-top:4px}
+.shipping-box h3{margin:0 0 2px;font-size:17px;color:#111827}
+.shipping-option{
+  position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:11px;
+  padding:14px;border:1.5px solid #dbeafe;border-radius:14px;background:#f8fbff;cursor:pointer;
+}
+.shipping-option input{width:20px;height:20px;accent-color:var(--green-dark)}
+.shipping-option strong{display:block;color:#111827;font-size:16px}
+.shipping-option small{display:block;color:var(--muted);font-weight:700}
+.shipping-option b{color:var(--green-dark);font-size:16px}
+.shipping-option.recommended{border-color:#bbf7d0;background:#f0fdf4}
+.shipping-option:has(input:checked){border-color:var(--green-dark);box-shadow:0 0 0 4px rgba(34,197,94,.13)}
+.trust-copy{margin:5px 0 0;padding:12px 13px;border-radius:13px;background:#f0fdf4;color:#166534;font-weight:800;font-size:14px}
+.summary-card{display:grid;gap:10px;padding:14px;border-radius:16px;background:#f9fafb;border:1px solid var(--line);margin-bottom:14px}
+.summary-row,.summary-total{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.summary-row{font-size:15px;color:#4b5563}.summary-row strong{color:#111827}
+.summary-total{border-top:1px solid var(--line);padding-top:12px;font-weight:900}.summary-total strong{font-size:23px;color:var(--green-dark)}
+.checkout-alert{
+  margin:0 0 12px;
+  padding:13px 14px;
+  border:1px solid #fecaca;
+  border-radius:13px;
+  background:#fef2f2;
+  color:#991b1b;
+  font-size:15px;
+  font-weight:900;
+  text-align:center;
+}
+.pix-button{
+  width:100%;min-height:58px;border:0;border-radius:14px;background:linear-gradient(180deg,#34d399,#16a34a);color:#fff;
+  font-weight:900;font-size:18px;letter-spacing:.02em;cursor:pointer;box-shadow:0 12px 24px rgba(22,163,74,.27);
+}
+.pix-button:active{transform:translateY(1px)}
+.pay-note{margin:10px 0 0;text-align:center;color:#4b5563;font-size:14px}.pay-note strong{color:#111827}
+.pix-placeholder{margin-top:13px;padding:14px;border:1px dashed #94a3b8;border-radius:13px;background:#f8fafc;color:#475569;text-align:center}
+.reviews-section{margin-top:16px;padding:16px;overflow:hidden}
+.section-heading p{margin:0 0 3px;color:var(--green-dark);font-weight:900;text-transform:uppercase;font-size:12px;letter-spacing:.04em}
+.section-heading h2{margin:0 0 12px;font-size:21px;color:#111827}
+.reviews-track{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(235px,82%);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:5px}
+.review-card{scroll-snap-align:start;padding:14px;border-radius:15px;border:1px solid #e5e7eb;background:#fff;box-shadow:0 8px 20px rgba(15,23,42,.06)}
+.stars{color:#f59e0b;font-size:18px;letter-spacing:1px}.review-card p{margin:8px 0 10px;color:#374151}.review-card strong{display:block;color:#111827}.review-card span{color:#16a34a;font-size:13px;font-weight:800}
+.site-footer{padding:8px 16px 28px;text-align:center;color:#6b7280;font-size:12px}
+@media (min-width:640px){
+  .page-shell{padding-left:18px;padding-right:18px}.product-line{grid-template-columns:150px 1fr;padding:20px}.product-photo{min-height:146px}h1{font-size:29px}.step-card{padding:22px}.address-grid,.customer-grid{grid-template-columns:1fr 1fr;column-gap:12px}.field.full{grid-column:1/-1}.reviews-track{grid-auto-columns:minmax(240px,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}.attention:not(.valid) input{animation:none}}
+
+
+/* Blindagem para quando o projeto principal tiver estilos globais fortes */
+html.checkout-page body.checkout-body .secure-topbar,
+html.checkout-page body.checkout-body .checkout-header,
+html.checkout-page body.checkout-body .delivery-banner,
+html.checkout-page body.checkout-body .page-shell,
+html.checkout-page body.checkout-body .site-footer{font-family:Arial,Helvetica,sans-serif !important;}
+html.checkout-page body.checkout-body .checkout-brand-fallback{display:none;margin:4px 0 0;color:#ff7a00;font-size:22px;font-weight:900;text-align:center;}
+html.checkout-page body.checkout-body .brand-logo:not([src]),
+html.checkout-page body.checkout-body .brand-logo[src=""]{display:none;}
+html.checkout-page body.checkout-body .brand-logo.broken + .checkout-brand-fallback{display:block;}
+
+
+/* Ajustes solicitados: topo fixo de entrega, produto menor e avaliações padrão Google */
+.secure-topbar.delivery-top-pill{
+  position:fixed !important;
+  top:10px !important;
+  left:50% !important;
+  transform:translateX(-50%);
+  z-index:9999 !important;
+  width:calc(100% - 24px);
+  max-width:520px;
+  min-height:44px;
+  padding:9px 16px;
+  border:1px solid rgba(255,122,0,.28);
+  border-radius:999px;
+  color:#7c2d12;
+  background:rgba(255,247,237,.96);
+  box-shadow:0 12px 28px rgba(255,122,0,.22), inset 0 0 0 1px rgba(255,255,255,.8);
+  backdrop-filter:blur(10px);
+  text-transform:none;
+  letter-spacing:0;
+  font-size:15px;
+  animation:topPillFloat 2.4s ease-in-out infinite;
+}
+.delivery-dot{width:12px;height:12px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 0 rgba(34,197,94,.55);animation:deliveryPulse 1.25s infinite;}
+.secure-topbar .bf-city{display:inline-block;margin-left:3px;padding:2px 9px;border-radius:999px;color:#fff;background:linear-gradient(90deg,#ff7a00,#f97316);text-decoration:none;box-shadow:0 6px 14px rgba(249,115,22,.28);animation:cityBlink 1.05s ease-in-out infinite;}
+.checkout-header{padding-top:68px !important;padding-bottom:8px;}
+.brand-logo{width:min(176px,48vw);max-height:92px;}
+.delivery-banner{display:none !important;}
+.hero-card{margin-bottom:10px;}
+.product-line{grid-template-columns:82px 1fr;gap:10px;padding:12px;align-items:center;}
+.product-photo{min-height:82px;height:82px;border-radius:14px;overflow:hidden;align-items:center;background:linear-gradient(135deg,#ecfdf5,#bbf7d0);}
+.product-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+.product-photo span{font-size:11px;line-height:1.15;padding:8px;}
+.eyebrow{font-size:11px;margin-bottom:2px;}
+h1{font-size:19px;}
+.subtitle{font-size:13px;margin:4px 0 6px;}
+.price-row strong{font-size:23px;}
+.old-price{font-size:12px;}
+.stock-note{font-size:12px;margin-top:4px;}
+.google-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.google-brand{font-size:20px;font-weight:900;letter-spacing:-1px;background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:6px 11px;box-shadow:0 6px 16px rgba(15,23,42,.07);white-space:nowrap;}
+.g-blue{color:#4285f4}.g-red{color:#ea4335}.g-yellow{color:#fbbc05}.g-green{color:#34a853}
+.google-score{display:flex;align-items:center;gap:7px;margin:0 0 12px;padding:10px 12px;border:1px solid #e5e7eb;border-radius:14px;background:#fff;}
+.google-score strong{font-size:23px;color:#111827}.google-score small{color:#6b7280;font-weight:800}.google-score .stars{font-size:15px;}
+.google-card{min-height:174px;}
+.review-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:900;background:linear-gradient(135deg,#4285f4,#34a853);box-shadow:0 4px 10px rgba(66,133,244,.25);}
+.review-top strong{margin:0;font-size:15px;}.review-top span{display:block;color:#6b7280;font-size:12px;font-weight:800;}
+.google-card p{font-size:14px;line-height:1.38;margin-top:7px;}
+.reviews-note{margin:10px 2px 0;color:#6b7280;font-size:12px;text-align:center;}
+@keyframes deliveryPulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}70%{box-shadow:0 0 0 9px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+@keyframes topPillFloat{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(2px)}}
+@keyframes cityBlink{0%,100%{filter:brightness(1);transform:scale(1)}50%{filter:brightness(1.16);transform:scale(1.04)}}
+@media (min-width:640px){.product-line{grid-template-columns:100px 1fr;padding:14px}.product-photo{height:96px;min-height:96px}h1{font-size:24px}.brand-logo{width:min(190px,42vw)}}
+
+  </style>
+</head>
+<body class="checkout-body">
+  <div class="secure-topbar delivery-top-pill" role="status" aria-live="polite">
+    <span class="delivery-dot" aria-hidden="true"></span>
+    <span id="bf-rota-texto">Entregas amanhã em toda região <strong class="bf-city">sua região</strong></span>
+  </div>
+
+  <header class="checkout-header">
+    <img id="brandLogo" class="brand-logo" src="/checkout/assets/logo.webp" alt="Botanique Floricultura" onerror="this.classList.add('broken');this.style.display='none';">
+    <div class="checkout-brand-fallback">Botanique Floricultura</div>
+  </header>
+
+  <!-- Tag de entrega movida para o topo fixo -->
+
+  <main class="page-shell">
+    <section class="hero-card" aria-label="Resumo da oferta">
+      <div class="timer-strip">
+        <span>Oferta termina em</span>
+        <strong id="countdown">00:09:51</strong>
+      </div>
+      <div class="product-line">
+        <div class="product-photo">
+          <img id="productImage" src="/checkout/assets/IMG23.webp" alt="Muda de Lichia Precoce" onerror="this.style.display='none';this.nextElementSibling.hidden=false;">
+          <span hidden>Muda de Lichia</span>
+        </div>
+        <div class="product-copy">
+          <p class="eyebrow">Essa Loja fica perto de você - entrega no outro dia</p>
+          <h1>Muda de Lichia Precoce</h1>
+          <p class="subtitle">Já produzindo, selecionada para quem quer colher mais rápido.</p>
+          <div class="price-row">
+            <span class="old-price">R$ 79,90</span>
+            <strong>R$ 47,90</strong>
+          </div>
+          <p class="stock-note">Pedido limitado a 1 unidade por cliente.</p>
+        </div>
+      </div>
+    </section>
+
+    <nav class="progress" aria-label="Progresso do checkout">
+      <div class="progress-item active" data-step-indicator="1">
+        <span>1</span>
+        <p>Entrega</p>
+      </div>
+      <div class="progress-line"></div>
+      <div class="progress-item" data-step-indicator="2">
+        <span>2</span>
+        <p>Dados</p>
+      </div>
+      <div class="progress-line"></div>
+      <div class="progress-item" data-step-indicator="3">
+        <span>3</span>
+        <p>Pagamento</p>
+      </div>
+    </nav>
+
+    <form id="checkoutForm" class="checkout-form" novalidate>
+      <section class="step-card open" id="step-1" data-step="1">
+        <div class="step-title">
+          <span>1</span>
+          <div>
+            <h2>Confirme sua entrega</h2>
+            <p>Preencha o CEP para confirmar a rota de entrega para amanhã.</p>
+          </div>
+        </div>
+
+        <label class="field attention" for="cep">
+          <span>CEP</span>
+          <input id="cep" name="cep" inputmode="numeric" autocomplete="postal-code" maxlength="9" placeholder="00000-000" required>
+          <small class="field-message" id="cepMessage">Digite seu CEP para buscar o endereço.</small>
+        </label>
+
+        <div class="address-grid" id="addressFields" hidden>
+          <label class="field" for="street">
+            <span>Rua</span>
+            <input id="street" name="street" autocomplete="address-line1" readonly required>
+          </label>
+          <label class="field" for="neighborhood">
+            <span>Bairro</span>
+            <input id="neighborhood" name="neighborhood" readonly required>
+          </label>
+          <label class="field" for="city">
+            <span>Cidade</span>
+            <input id="city" name="city" readonly required>
+          </label>
+          <label class="field" for="state">
+            <span>Estado</span>
+            <input id="state" name="state" readonly required>
+          </label>
+          <label class="field attention" for="number">
+            <span>Número</span>
+            <input id="number" name="number" inputmode="numeric" autocomplete="address-line2" placeholder="Ex: 125" required>
+            <small class="field-message">Obrigatório para finalizar a entrega.</small>
+          </label>
+          <label class="field" for="complement">
+            <span>Complemento</span>
+            <input id="complement" name="complement" autocomplete="address-line3" placeholder="Casa, apto, referência">
+          </label>
+        </div>
+
+        <div class="shipping-box" id="shippingBox" hidden>
+          <h3>Escolha o horário de entrega</h3>
+          <label class="shipping-option">
+            <input type="radio" name="shipping" value="13.32" data-tipo="pago" data-label="Receba amanhã até 10h" required>
+            <span>
+              <strong>Receba amanhã até 10h</strong>
+              <small>Entrega prioritária</small>
+            </span>
+            <b>R$ 13,32</b>
+          </label>
+          <label class="shipping-option recommended">
+            <input type="radio" name="shipping" value="0" data-tipo="gratis" data-label="Receba amanhã até 18h">
+            <span>
+              <strong>Receba amanhã até 18h</strong>
+              <small>Opção mais escolhida</small>
+            </span>
+            <b>Grátis</b>
+          </label>
+        </div>
+      </section>
+
+      <section class="step-card locked" id="step-2" data-step="2">
+        <div class="step-title">
+          <span>2</span>
+          <div>
+            <h2>Dados pessoais</h2>
+            <p>Use um telefone ativo para receber a confirmação da entrega.</p>
+          </div>
+        </div>
+
+        <div class="customer-grid">
+          <label class="field attention" for="firstName">
+            <span>Nome</span>
+            <input id="firstName" name="firstName" autocomplete="given-name" placeholder="Seu nome" required>
+          </label>
+          <label class="field" for="lastName">
+            <span>Sobrenome</span>
+            <input id="lastName" name="lastName" autocomplete="family-name" placeholder="Opcional">
+          </label>
+          <label class="field attention" for="phone">
+            <span>Telefone ou celular</span>
+            <input id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required>
+          </label>
+          <label class="field" for="email">
+            <span>E-mail</span>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="Opcional">
+          </label>
+        </div>
+
+        <p class="trust-copy">Seus dados estão protegidos e serão usados apenas para confirmar o pedido.</p>
+      </section>
+
+      <section class="step-card locked" id="step-3" data-step="3">
+        <div class="step-title">
+          <span>3</span>
+          <div>
+            <h2>Resumo e pagamento</h2>
+            <p>Revise os valores e gere seu PIX com segurança.</p>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-row">
+            <span>Muda de Lichia Precoce</span>
+            <strong>R$ 47,90</strong>
+          </div>
+          <div class="summary-row">
+            <span>Quantidade</span>
+            <strong>1 unidade</strong>
+          </div>
+          <div class="summary-row">
+            <span id="shippingSummaryLabel">Frete</span>
+            <strong id="shippingSummaryValue">Selecione</strong>
+          </div>
+          <div class="summary-total">
+            <span>Total</span>
+            <strong id="totalValue">R$ 47,90</strong>
+          </div>
+        </div>
+
+        <div class="checkout-alert" id="checkoutAlert" role="alert" aria-live="assertive" hidden>Selecione uma opção de frete para continuar</div>
+        <button class="pix-button" type="submit">GERAR PIX AGORA</button>
+        <p class="pay-note">Você vai pagar <strong id="payNote">R$ 47,90</strong>. Pagamento processado na mesma página.</p>
+
+        <!-- PIX INTEGRATION AREA -->
+        <div id="pix-box">
+          <!-- COLAR AQUI SCRIPT OU URL DE GERAÇÃO DE PIX -->
+          <div class="pix-placeholder" hidden id="pixPlaceholder">
+            <strong>Área de integração PIX</strong>
+            <p>Substitua este bloco pelo script, iframe ou endpoint do seu gerador de PIX.</p>
+          </div>
+        </div>
+      </section>
+    </form>
+
+    <section class="reviews-section google-reviews" aria-label="Depoimentos de clientes no padrão Google">
+      <div class="section-heading google-heading">
+        <div>
+          <p>Avaliações de clientes</p>
+          <h2>Quem comprou recomenda</h2>
+        </div>
+        <div class="google-brand" aria-label="Google avaliações">
+          <span class="g-blue">G</span><span class="g-red">o</span><span class="g-yellow">o</span><span class="g-blue">g</span><span class="g-green">l</span><span class="g-red">e</span>
+        </div>
+      </div>
+      <div class="google-score">
+        <strong>4,9</strong>
+        <span class="stars" aria-label="5 estrelas">★★★★★</span>
+        <small>avaliações de clientes</small>
+      </div>
+      <div class="reviews-track">
+        <article class="review-card google-card"><div class="review-top"><div class="avatar">M</div><div><strong>Maria Aparecida</strong><span>Google • Compra verificada</span></div></div><div class="stars" aria-label="5 estrelas">★★★★★</div><p>Chegou no outro dia e a muda veio muito bonita. Atendimento rápido e compra simples.</p></article>
+        <article class="review-card google-card"><div class="review-top"><div class="avatar">J</div><div><strong>José Roberto</strong><span>Google • Compra verificada</span></div></div><div class="stars" aria-label="5 estrelas">★★★★★</div><p>Gostei porque não precisei preencher muita coisa. Recebi direitinho no horário combinado.</p></article>
+        <article class="review-card google-card"><div class="review-top"><div class="avatar">H</div><div><strong>Helena Cristina</strong><span>Google • Compra verificada</span></div></div><div class="stars" aria-label="5 estrelas">★★★★★</div><p>A muda veio bem embalada e já estava forte. Valeu muito pelo preço e pela entrega rápida.</p></article>
+        <article class="review-card google-card"><div class="review-top"><div class="avatar">A</div><div><strong>Antônio Carlos</strong><span>Google • Compra verificada</span></div></div><div class="stars" aria-label="5 estrelas">★★★★★</div><p>Comprei pelo celular e foi fácil. A entrega apareceu para minha cidade e chegou no dia seguinte.</p></article>
+        <article class="review-card google-card"><div class="review-top"><div class="avatar">L</div><div><strong>Luciana Martins</strong><span>Google • Compra verificada</span></div></div><div class="stars" aria-label="5 estrelas">★★★★★</div><p>Gostei da opção de entrega grátis. A planta chegou certinha, verde e muito bem protegida.</p></article>
+        <article class="review-card google-card"><div class="review-top"><div class="avatar">R</div><div><strong>Roberto Nunes</strong><span>Google • Compra verificada</span></div></div><div class="stars" aria-label="5 estrelas">★★★★★</div><p>Atendimento muito bom. Fiz o pedido à noite e no outro dia já estava recebendo em casa.</p></article>
+      </div>
+      <p class="reviews-note">Modelo visual no padrão Google. Substitua os textos pelos depoimentos reais do seu perfil quando desejar.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Botanique Floricultura. Checkout seguro, simples e otimizado para entrega local.</p>
+  </footer>
+
+  <script>
+const URL_LOGO_BOTANIQUE = "/checkout/assets/logo.webp"; // Caminho absoluto da rota /checkout para funcionar sem barra final.
+const URL_FOTO_MUDA = "/checkout/assets/IMG23.webp"; // Caminho absoluto da rota /checkout para funcionar sem barra final.
+const redirectAfterPayment = "COLOCAR_URL_AQUI";
+const URL_PIX_COM_FRETE = "./index.html#pix-com-frete";
+const URL_PIX_SEM_FRETE = "./index.html#pix-sem-frete";
+const PRODUCT_PRICE = 47.90;
+let freteSelecionado = null;
+
+const $ = (selector, scope = document) => scope.querySelector(selector);
+const $$ = (selector, scope = document) => Array.from(scope.querySelectorAll(selector));
+
+
+function setupEditableImages(){
+  const logo = $('#brandLogo');
+  const productImage = $('#productImage');
+  if(logo && URL_LOGO_BOTANIQUE) logo.src = URL_LOGO_BOTANIQUE;
+  if(productImage && URL_FOTO_MUDA) productImage.src = URL_FOTO_MUDA;
+}
+
+function money(value){
+  return value.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+}
+
+function onlyDigits(value){
+  return String(value || '').replace(/\D/g,'');
+}
+
+function setFieldState(input, state){
+  const field = input.closest('.field');
+  if(!field) return;
+  field.classList.remove('valid','invalid');
+  if(state) field.classList.add(state);
+}
+
+function focusNext(current){
+  const inputs = $$('input:not([readonly])').filter(el => !el.disabled && el.offsetParent !== null);
+  const index = inputs.indexOf(current);
+  if(index >= 0 && inputs[index + 1]) inputs[index + 1].focus({preventScroll:false});
+}
+
+function openStep(step){
+  for(let i=1;i<=3;i++){
+    const card = $(`#step-${i}`);
+    const indicator = $(`[data-step-indicator="${i}"]`);
+    if(i <= step){
+      card.classList.remove('locked');
+      card.classList.add('open');
+    }
+    if(i < step){
+      indicator.classList.remove('active');
+      indicator.classList.add('done');
+    } else if(i === step){
+      indicator.classList.add('active');
+      indicator.classList.remove('done');
+    } else {
+      indicator.classList.remove('active','done');
+    }
+  }
+}
+
+function scrollToStep(step){
+  const card = $(`#step-${step}`);
+  if(card) card.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function updateTotals(){
+  const selected = $('input[name="shipping"]:checked');
+  const freight = selected ? Number(selected.value) : 0;
+  const total = PRODUCT_PRICE + freight;
+  $('#shippingSummaryLabel').textContent = selected ? selected.dataset.label : 'Frete';
+  $('#shippingSummaryValue').textContent = selected ? (freight === 0 ? 'Grátis' : money(freight)) : 'Selecione';
+  $('#totalValue').textContent = money(total);
+  $('#payNote').textContent = money(total);
+}
+
+function validateRequired(input){
+  const ok = input.value.trim().length > 1;
+  setFieldState(input, ok ? 'valid' : 'invalid');
+  return ok;
+}
+
+function maskCep(input){
+  const digits = onlyDigits(input.value).slice(0,8);
+  input.value = digits.length > 5 ? `${digits.slice(0,5)}-${digits.slice(5)}` : digits;
+  return digits;
+}
+
+function maskPhone(input){
+  const d = onlyDigits(input.value).slice(0,11);
+  if(d.length <= 2) input.value = d;
+  else if(d.length <= 6) input.value = `(${d.slice(0,2)}) ${d.slice(2)}`;
+  else if(d.length <= 10) input.value = `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;
+  else input.value = `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;
+  return d;
+}
+
+async function lookupCep(cepDigits){
+  const cepMessage = $('#cepMessage');
+  cepMessage.textContent = 'Buscando endereço...';
+  try{
+    const response = await fetch(`https://viacep.com.br/ws/${cepDigits}/json/`);
+    const data = await response.json();
+    if(data.erro) throw new Error('CEP não encontrado');
+    $('#street').value = data.logradouro || '';
+    $('#neighborhood').value = data.bairro || '';
+    $('#city').value = data.localidade || '';
+    $('#state').value = data.uf || '';
+    ['street','neighborhood','city','state'].forEach(id => setFieldState($(`#${id}`),'valid'));
+    $('#addressFields').hidden = false;
+    cepMessage.textContent = 'Endereço encontrado. Informe o número.';
+    setFieldState($('#cep'),'valid');
+    setTimeout(() => $('#number').focus(), 200);
+  }catch(error){
+    cepMessage.textContent = 'Não encontramos esse CEP. Confira e tente novamente.';
+    setFieldState($('#cep'),'invalid');
+  }
+}
+
+function maybeShowShipping(){
+  const numberOk = $('#number').value.trim().length > 0;
+  if(numberOk){
+    setFieldState($('#number'),'valid');
+    $('#shippingBox').hidden = false;
+  } else {
+    setFieldState($('#number'),'invalid');
+  }
+}
+
+function validateCustomerAndOpenPayment(){
+  const nameOk = validateRequired($('#firstName'));
+  const phoneDigits = onlyDigits($('#phone').value);
+  const phoneOk = phoneDigits.length >= 10;
+  setFieldState($('#phone'), phoneOk ? 'valid' : 'invalid');
+  const email = $('#email');
+  if(email.value.trim()){
+    setFieldState(email, email.checkValidity() ? 'valid' : 'invalid');
+  }
+  if(nameOk && phoneOk){
+    openStep(3);
+  }
+}
+
+function startCountdown(){
+  let seconds = 9 * 60 + 51;
+  const el = $('#countdown');
+  setInterval(() => {
+    seconds = Math.max(0, seconds - 1);
+    const min = String(Math.floor(seconds / 60)).padStart(2,'0');
+    const sec = String(seconds % 60).padStart(2,'0');
+    el.textContent = `00:${min}:${sec}`;
+  }, 1000);
+}
+
+function showCheckoutAlert(message){
+  const alert = $('#checkoutAlert');
+  if(!alert) return;
+  alert.textContent = message;
+  alert.hidden = false;
+  setTimeout(() => {
+    alert.hidden = true;
+  }, 3500);
+}
+
+function renderPixArea(tipo){
+  const placeholder = $('#pixPlaceholder');
+  if(!placeholder) return;
+
+  const isPago = tipo === 'pago';
+  const total = isPago ? money(61.22) : money(47.90);
+  const frete = isPago ? money(13.32) : 'Grátis';
+  const titulo = isPago ? 'PIX com frete incluso' : 'PIX sem frete';
+
+  placeholder.hidden = false;
+  placeholder.innerHTML = `
+    <strong>${titulo}</strong>
+    <p>Produto: R$ 47,90<br>Frete: ${frete}<br>Total do PIX: <b>${total}</b></p>
+    <p>Substitua este bloco pelo HTML, iframe, script, QR Code ou copia e cola do seu gerador de PIX.</p>
+  `;
+  placeholder.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function irParaPix(){
+  if(freteSelecionado === "pago"){
+    window.location.href = URL_PIX_COM_FRETE;
+    renderPixArea('pago');
+    return;
+  }
+
+  if(freteSelecionado === "gratis"){
+    window.location.href = URL_PIX_SEM_FRETE;
+    renderPixArea('gratis');
+    return;
+  }
+
+  showCheckoutAlert('Selecione uma opção de frete para continuar');
+}
+
+function renderPixFromHash(){
+  if(window.location.hash === '#pix-com-frete') renderPixArea('pago');
+  if(window.location.hash === '#pix-sem-frete') renderPixArea('gratis');
+}
+
+function setupCheckout(){
+  setupEditableImages();
+  const cep = $('#cep');
+  const phone = $('#phone');
+  const form = $('#checkoutForm');
+
+  cep.addEventListener('input', () => {
+    const digits = maskCep(cep);
+    setFieldState(cep, digits.length === 8 ? 'valid' : null);
+    if(digits.length === 8) lookupCep(digits);
+  });
+
+  $('#number').addEventListener('input', maybeShowShipping);
+  $('#number').addEventListener('blur', maybeShowShipping);
+
+  $$('input[name="shipping"]').forEach(option => {
+    option.addEventListener('change', () => {
+      freteSelecionado = option.dataset.tipo === 'pago' ? 'pago' : 'gratis';
+      const alert = $('#checkoutAlert');
+      if(alert) alert.hidden = true;
+      updateTotals();
+      openStep(2);
+      setTimeout(() => scrollToStep(2), 140);
+      setTimeout(() => $('#firstName').focus(), 450);
+    });
+  });
+
+  $('#firstName').addEventListener('blur', () => validateRequired($('#firstName')));
+  $('#firstName').addEventListener('keydown', event => {
+    if(event.key === 'Enter') { event.preventDefault(); focusNext($('#firstName')); }
+  });
+
+  phone.addEventListener('input', () => {
+    const digits = maskPhone(phone);
+    setFieldState(phone, digits.length >= 10 ? 'valid' : null);
+    validateCustomerAndOpenPayment();
+  });
+
+  ['firstName','lastName','email'].forEach(id => {
+    $(`#${id}`).addEventListener('input', validateCustomerAndOpenPayment);
+  });
+
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const hasShipping = Boolean($('input[name="shipping"]:checked'));
+    const nameOk = validateRequired($('#firstName'));
+    const phoneOk = onlyDigits($('#phone').value).length >= 10;
+    setFieldState($('#phone'), phoneOk ? 'valid' : 'invalid');
+
+    if(!hasShipping || !freteSelecionado){
+      showCheckoutAlert('Selecione uma opção de frete para continuar');
+      openStep(1); scrollToStep(1); return;
+    }
+    if(!nameOk || !phoneOk){
+      openStep(2); scrollToStep(2); return;
+    }
+
+    window.dispatchEvent(new CustomEvent('pix:generated', {
+      detail: {
+        product:'Muda de Lichia Precoce',
+        quantity:1,
+        freteSelecionado,
+        total:$('#totalValue').textContent,
+        pixUrl: freteSelecionado === 'pago' ? URL_PIX_COM_FRETE : URL_PIX_SEM_FRETE,
+        redirectAfterPayment
+      }
+    }));
+
+    irParaPix();
+  });
+}
+
+// DELIVERY BANNER
+(function(){
+  var el=document.getElementById('bf-rota-texto') || document.querySelector('.delivery-top-pill span:not(.delivery-dot)');
+  if(!el)return;
+  function show(city){
+    if(city&&city.length>1){
+      el.innerHTML='Entregas amanhã em toda região <span class="bf-city">'+city+'</span>';
+    } else {
+      el.innerHTML='Entregas amanhã em toda região <span class="bf-city">sua região</span>';
+    }
+  }
+  async function get(){
+    var apis=['https://get.geojs.io/v1/ip/geo.json','https://ipwho.is/','https://ipapi.co/json/'];
+    for(var i=0;i<apis.length;i++){
+      try{var r=await fetch(apis[i]);var d=await r.json();if(d&&d.city){show(d.city);return;}}catch(e){}
+    }
+    show(null);
+  }
+  get();
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
+  startCountdown();
+  setupCheckout();
+  updateTotals();
+  renderPixFromHash();
+  window.addEventListener('hashchange', renderPixFromHash);
+});
+
+  </script>
+</body>
+</html>
