@@ -7,6 +7,28 @@
   <meta name="description" content="Checkout Botanique Floricultura para Muda de Lichia Precoce com entrega no dia seguinte.">
   <title>Checkout | Botanique Floricultura</title>
   <link rel="preload" href="/checkout/assets/logo.webp" as="image">
+
+  <!-- META PIXEL -->
+  <script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+  (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1603357864325666');
+  fbq('track', 'PageView');
+  fbq('track', 'InitiateCheckout', {
+    value: 47.90,
+    currency: 'BRL',
+    content_name: 'Muda de Lichia Precoce',
+    content_type: 'product',
+    num_items: 1
+  });
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1603357864325666&ev=PageView&noscript=1"/></noscript>
+  <!-- FIM META PIXEL -->
+
   <style>
 html.checkout-page, html.checkout-page body{width:100%;min-height:100%;}
 :root{
@@ -710,6 +732,17 @@ function getTrackingParams(){
 }
 
 function renderPixSuccess(data){
+  // META PIXEL: PIX gerado com sucesso = Purchase
+  if(typeof fbq !== 'undefined'){
+    fbq('track', 'Purchase', {
+      value: 47.90,
+      currency: 'BRL',
+      content_name: 'Muda de Lichia Precoce',
+      content_type: 'product',
+      num_items: 1
+    });
+  }
+
   const box = $('#pix-box');
   const pix = data && data.pix ? data.pix : {};
   const code = pix.code || '';
@@ -756,6 +789,15 @@ async function gerarPixBuckPay(){
     if(button){
       button.disabled = true;
       button.textContent = 'GERANDO PIX...';
+    }
+
+    // META PIXEL: usuário clicou em pagar
+    if(typeof fbq !== 'undefined'){
+      fbq('track', 'AddPaymentInfo', {
+        value: 47.90,
+        currency: 'BRL',
+        content_name: 'Muda de Lichia Precoce'
+      });
     }
 
     const response = await fetch('/api/create-pix', {
