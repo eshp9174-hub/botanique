@@ -64,7 +64,6 @@ a{color:inherit;text-decoration:none}
 /* ===== DELIVERY BANNER ===== */
 #bf-rota-entrega{width:100%;background:#f5f7fa;padding:8px 12px;text-align:center;border-top:1px solid #ececec;border-bottom:1px solid #ececec;border-radius:20px;overflow:hidden;margin:8px 0}
 #bf-rota-texto{color:#2b2b2b;font-size:13px;font-weight:900;animation:bfPulse 1.4s infinite ease-in-out;display:inline-block;line-height:1.3}
-.bf-city{background:#20c45a;color:#fff;padding:4px 11px;border-radius:999px;margin:0 4px;display:inline-block;font-weight:900;box-shadow:0 2px 8px rgba(32,196,90,.22)}
 
 /* ===== PRODUCT CARD ===== */
 .bf-product-card{width:100%;max-width:620px;margin:0 auto;padding:16px 12px;font-family:Arial,sans-serif;color:#1f1f1f}
@@ -182,7 +181,6 @@ a{color:inherit;text-decoration:none}
   .bf-page,.bf-dots{min-width:30px;height:30px;font-size:12px;border-radius:9px;padding:0 8px}
   #bf-rota-entrega{padding:7px 8px;border-radius:16px}
   #bf-rota-texto{font-size:12px}
-  .bf-city{padding:3px 9px}
 }
 </style>
 </head>
@@ -229,7 +227,7 @@ a{color:inherit;text-decoration:none}
 
   <!-- DELIVERY BANNER -->
   <div id="bf-rota-entrega">
-    <span id="bf-rota-texto">Entregas para <span class="bf-city">sua região</span> nesta semana</span>
+    <span id="bf-rota-texto">Sua cidade está na rota de entrega de amanhã</span>
   </div>
 
   <div class="section-gap"></div>
@@ -550,27 +548,6 @@ document.addEventListener('click',function(e){
     });
   },{rootMargin:'200px'});
   document.querySelectorAll('.lazy-video video').forEach(function(v){obs.observe(v);});
-})();
-
-// ===== GEO DELIVERY BANNER =====
-(function(){
-  var el=document.getElementById('bf-rota-texto');
-  if(!el)return;
-  function show(city){
-    if(city&&city.length>1){
-      el.innerHTML='Entregas para <span class="bf-city">'+city+'</span> e região nesta semana';
-    } else {
-      el.innerHTML='Sua região está na rota de entrega esta semana';
-    }
-  }
-  async function get(){
-    var apis=['https://get.geojs.io/v1/ip/geo.json','https://ipwho.is/','https://ipapi.co/json/'];
-    for(var i=0;i<apis.length;i++){
-      try{var r=await fetch(apis[i]);var d=await r.json();if(d&&d.city){show(d.city);return;}}catch(e){}
-    }
-    show(null);
-  }
-  get();
 })();
 
 // ===== PAGINATION SCROLL TOP =====
