@@ -474,6 +474,7 @@ html.checkout-page body.checkout-body .brand-logo.broken + .checkout-brand-fallb
 const redirectAfterPayment = "COLOCAR_URL_AQUI";
 const PRODUCT_PRICE = 47.90;
 const PRODUCT_TITLE = "Muda de Lichia Precoce";
+const API_BASE_URL = "https://botanique-one.vercel.app";
 let freteSelecionado = null;
 let statusTimer = null;
 
@@ -537,19 +538,57 @@ function renderPixSuccess(data){
 function renderPixError(message){ const box=$('#pixPlaceholder'); box.hidden=false; box.classList.remove('generated'); box.innerHTML=`<div class="pix-error">${message || 'Não foi possível gerar o PIX. Revise os dados e tente novamente.'}</div>`; box.scrollIntoView({behavior:'smooth',block:'center'}); }
 async function startStatusPolling(transactionId){
   if(statusTimer) clearInterval(statusTimer);
-  const check=async()=>{ try{ const r=await fetch(`/api/pix-status?transactionId=${encodeURIComponent(transactionId)}`); const json=await r.json(); if(json.success && json.status==='PAID'){ clearInterval(statusTimer); const el=$('#pixStatus'); if(el) el.innerHTML='<div class="pix-success">Pagamento confirmado! Redirecionando...</div>'; if(redirectAfterPayment && redirectAfterPayment !== 'COLOCAR_URL_AQUI') setTimeout(()=>{window.location.href=redirectAfterPayment;},1200); } }catch(e){} };
+  const check=async()=>{ try{ const r = await fetch(`${API_BASE_URL}/api/pix-status?transactionId=${encodeURIComponent(transactionId)}`); const json=await r.json(); if(json.success && json.status==='PAID'){ clearInterval(statusTimer); const el=$('#pixStatus'); if(el) el.innerHTML='<div class="pix-success">Pagamento confirmado! Redirecionando...</div>'; if(redirectAfterPayment && redirectAfterPayment !== 'COLOCAR_URL_AQUI') setTimeout(()=>{window.location.href=redirectAfterPayment;},1200); } }catch(e){} };
   statusTimer=setInterval(check,5000); setTimeout(check,2500);
 }
 async function gerarPix(){
-  const btn=$('.pix-button'); btn.disabled=true; btn.textContent='GERANDO PIX...';
+  const btn = $('.pix-button');
+  btn.disabled = true;
+  btn.textContent = 'GERANDO PIX...';
+
   try{
-    const response=await fetch('/api/create-pix',{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(getOrderData()) });
-    const json=await response.json();
-    if(!response.ok || !json.success) throw new Error(json.message || 'Erro ao gerar PIX');
-    window.dispatchEvent(new CustomEvent('pix:generated',{detail:json.data}));
+    const response = await fetch(`${API_BASE_URL}/api/create-pix`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(getOrderData())
+    });
+
+    const text = await response.text();
+    let json;
+
+    try{
+      json = JSON.parse(text);
+    }catch(e){
+      console.error('RESPOSTA RAW API:', text);
+      throw new Error(
+        text && (text.includes('<!DOCTYPE') || text.includes('<html'))
+          ? 'API retornou HTML. Verifique se a URL da API está correta e se o deploy da Vercel está atualizado.'
+          : 'Resposta inválida da API.'
+      );
+    }
+
+    console.log('BLACKCAT RESPONSE:', json);
+
+    if(!response.ok || !json.success){
+      throw new Error(json.message || json.error || 'Erro ao gerar PIX');
+    }
+
+    if(!json.data){
+      throw new Error('A API não retornou os dados do PIX');
+    }
+
+    window.dispatchEvent(new CustomEvent('pix:generated', { detail: json.data }));
     renderPixSuccess(json.data);
-  }catch(error){ renderPixError(error.message); }
-  finally{ btn.disabled=false; btn.textContent='GERAR PIX AGORA'; }
+
+  }catch(error){
+    console.error('ERRO PIX:', error);
+    renderPixError(error.message || 'Não foi possível gerar o PIX');
+  }finally{
+    btn.disabled = false;
+    btn.textContent = 'GERAR PIX AGORA';
+  }
 }
 
 function setupCheckout(){
