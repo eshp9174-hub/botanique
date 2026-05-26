@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Flora Botânica - Reservas</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  height:100vh;
+  overflow:hidden;
+  background:#e5ddd5;
+}
+
+.chat-screen{
+  width:100%;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  background:#efe7dd;
+  position:relative;
+  overflow:hidden;
+}
+
+.chat-screen::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:
+    radial-gradient(circle at 18px 22px, rgba(0,0,0,.035) 2px, transparent 3px),
+    radial-gradient(circle at 85px 75px, rgba(0,0,0,.025) 2px, transparent 4px);
+  background-size:115px 115px;
+  opacity:.45;
+  pointer-events:none;
+}
+
+.chat-header{
+  height:72px;
+  background:#075e54;
+  color:white;
+  display:flex;
+  align-items:center;
+  padding:10px 14px;
+  gap:10px;
+  z-index:2;
+  flex-shrink:0;
+}
+
+.back{font-size:34px;line-height:1}
+
+.avatar{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+}
+
+.header-info{flex:1;min-width:0}
+
+.header-title{
+  font-size:17px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+
+.verified{
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background:#34b7f1;
+  color:white;
+  font-size:10px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.header-sub{
+  font-size:13px;
+  opacity:.9;
+  margin-top:2px;
+}
+
+.header-icons{
+  display:flex;
+  gap:18px;
+  font-size:22px;
+}
+
+.chat-body{
+  flex:1;
+  padding:16px 12px 24px;
+  overflow-y:auto;
+  position:relative;
+  z-index:1;
+}
+
+.security-msg{
+  max-width:92%;
+  margin:0 auto 18px;
+  background:#fff3c4;
+  color:#4a3d14;
+  border-radius:8px;
+  padding:10px 12px;
+  font-size:13px;
+  text-align:center;
+  line-height:1.35;
+}
+
+.bot-msg{
+  background:white;
+  color:#1f2937;
+  padding:10px 12px;
+  border-radius:8px 8px 8px 2px;
+  max-width:84%;
+  margin-bottom:8px;
+  font-size:15px;
+  line-height:1.38;
+  box-shadow:0 1px 1px rgba(0,0,0,.08);
+  animation:pop .25s ease;
+}
+
+@keyframes pop{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.bot-name{
+  color:#128c7e;
+  font-weight:700;
+  font-size:13px;
+  margin-bottom:4px;
+}
+
+.time{
+  display:block;
+  text-align:right;
+  font-size:11px;
+  color:#8b8b8b;
+  margin-top:4px;
+}
+
+.typing-box{
+  background:white;
+  padding:11px 13px;
+  border-radius:8px 8px 8px 2px;
+  max-width:70px;
+  margin-bottom:8px;
+  box-shadow:0 1px 1px rgba(0,0,0,.08);
+}
+
+.typing{
+  display:flex;
+  gap:4px;
+}
+
+.typing span{
+  width:6px;
+  height:6px;
+  background:#9ca3af;
+  border-radius:50%;
+  animation:blink 1.2s infinite;
+}
+
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+
+@keyframes blink{
+  0%,80%,100%{opacity:.3}
+  40%{opacity:1}
+}
+
+.form-card{
+  background:#fff;
+  border-radius:12px;
+  padding:14px;
+  margin-top:10px;
+  max-width:94%;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+  animation:pop .25s ease;
+}
+
+.form-label{
+  font-weight:800;
+  font-size:14px;
+  color:#374151;
+  margin-bottom:8px;
+}
+
+.form-input{
+  width:100%;
+  border:1px solid #d1d5db;
+  border-radius:10px;
+  padding:14px;
+  font-size:16px;
+  outline:none;
+}
+
+.form-input:focus{border-color:#128c7e}
+
+.confirm-btn{
+  margin-top:12px;
+  width:100%;
+  border:0;
+  border-radius:999px;
+  padding:16px;
+  background:#25d366;
+  color:white;
+  font-weight:900;
+  font-size:16px;
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(37,211,102,.38);
+}
+
+.confirm-btn:active{transform:scale(.98)}
+
+.option-btn{
+  width:100%;
+  border:1px solid #d1fae5;
+  background:#ecfdf5;
+  color:#065f46;
+  font-weight:800;
+  border-radius:12px;
+  padding:14px;
+  margin-top:8px;
+  font-size:15px;
+  text-align:left;
+  cursor:pointer;
+}
+
+.receipt{
+  background:#fff;
+  border-radius:10px;
+  padding:14px;
+  max-width:94%;
+  font-family:"Courier New", monospace;
+  font-size:14px;
+  line-height:1.45;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+  margin-top:10px;
+  animation:pop .25s ease;
+}
+
+.receipt-title{
+  text-align:center;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.total{
+  font-size:18px;
+  font-weight:900;
+}
+
+.safe-pay{
+  margin-top:10px;
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  color:#9a3412;
+  padding:10px;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:800;
+  text-align:center;
+}
+
+.alert{
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  color:#9a3412;
+  border-radius:12px;
+  padding:12px;
+  margin-top:10px;
+  font-size:14px;
+  font-weight:700;
+  animation:pulse 1.3s infinite;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.015)}
+  100%{transform:scale(1)}
+}
+
+.timer{
+  text-align:center;
+  background:#fee2e2;
+  color:#991b1b;
+  border-radius:12px;
+  padding:12px;
+  font-weight:900;
+  font-size:18px;
+  margin-top:10px;
+}
+
+.hidden{display:none}
+
+@media(min-width:700px){
+  body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f3f4f6;
+  }
+
+  .chat-screen{
+    max-width:420px;
+    height:92vh;
+    border-radius:22px;
+    box-shadow:0 20px 45px rgba(0,0,0,.18);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="chat-screen">
+  <div class="chat-header">
+    <div class="back">‹</div>
+    <div class="avatar">🌱</div>
+
+    <div class="header-info">
+      <div class="header-title">
+        Flora Botânica
+        <span class="verified">✓</span>
+      </div>
+      <div class="header-sub">Thaís • reservas e vendas</div>
+    </div>
+
+    <div class="header-icons">
+      <span>☎</span>
+      <span>⋮</span>
+    </div>
+  </div>
+
+  <div class="chat-body" id="chat">
+    <div class="security-msg">
+      🔒 As mensagens deste atendimento estão protegidas. Continue para reservar sua muda com entrega.
+    </div>
+  </div>
+</div>
+
+<script>
+const chat = document.getElementById("chat");
+
+let dados = {
+  nome:"",
+  sobrenome:"",
+  telefone:"",
+  horario:"",
+  cpf:""
+};
+
+function hora(){
+  return new Date().toLocaleTimeString("pt-BR", {
+    hour:"2-digit",
+    minute:"2-digit"
+  });
+}
+
+function scrollBottom(){
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function typing(){
+  const box = document.createElement("div");
+  box.className = "typing-box";
+  box.innerHTML = `
+    <div class="typing">
+      <span></span><span></span><span></span>
+    </div>
+  `;
+  chat.appendChild(box);
+  scrollBottom();
+  return box;
+}
+
+function addMsg(text, name=false){
+  const msg = document.createElement("div");
+  msg.className = "bot-msg";
+  msg.innerHTML = `
+    ${name ? '<div class="bot-name">Thaís - Reservas</div>' : ''}
+    ${text}
+    <span class="time">${hora()}</span>
+  `;
+  chat.appendChild(msg);
+  scrollBottom();
+}
+
+function addForm(label, placeholder, key, next){
+  const card = document.createElement("div");
+  card.className = "form-card";
+  card.innerHTML = `
+    <div class="form-label">${label}</div>
+    <input class="form-input" type="text" placeholder="${placeholder}" />
+    <button class="confirm-btn">Confirmar</button>
+  `;
+  chat.appendChild(card);
+  scrollBottom();
+
+  const input = card.querySelector("input");
+  const btn = card.querySelector("button");
+
+  input.focus();
+
+  btn.onclick = () => {
+    if(!input.value.trim()){
+      input.style.borderColor = "#dc2626";
+      input.focus();
+      return;
+    }
+
+    dados[key] = input.value.trim();
+    card.remove();
+    next();
+  };
+}
+
+function addOptions(){
+  const card = document.createElement("div");
+  card.className = "form-card";
+  card.innerHTML = `
+    <div class="form-label">Escolha o melhor horário:</div>
+
+    <button class="option-btn" data-horario="Até 11h da manhã">
+      🚚 Até 11h da manhã<br>
+      <small>Entrega prioritária grátis</small>
+    </button>
+
+    <button class="option-btn" data-horario="Até 18h">
+      🚚 Até 18h<br>
+      <small>Entrega grátis — mais escolhido</small>
+    </button>
+  `;
+  chat.appendChild(card);
+  scrollBottom();
+
+  card.querySelectorAll("button").forEach(btn=>{
+    btn.onclick = () => {
+      dados.horario = btn.dataset.horario;
+      card.remove();
+      stepLote();
+    }
+  });
+}
+
+function addReceipt(){
+  const receipt = document.createElement("div");
+  receipt.className = "receipt";
+  receipt.innerHTML = `
+    <div class="receipt-title">🧾 RESUMO DA RESERVA</div>
+    FLORA BOTÂNICA<br>
+    Reservas e entregas<br>
+    ------------------------------<br>
+    Cliente: ${dados.nome} ${dados.sobrenome}<br>
+    Produto: Muda produzindo<br>
+    Entrega: Amanhã<br>
+    Horário: ${dados.horario}<br>
+    Entrega pela loja: GRÁTIS<br>
+    ------------------------------<br>
+    <span class="total">TOTAL: R$ 37,90</span><br>
+    ------------------------------
+  `;
+  chat.appendChild(receipt);
+  scrollBottom();
+}
+
+function addPaymentForm(){
+  const card = document.createElement("div");
+  card.className = "form-card";
+  card.innerHTML = `
+    <div class="form-label">CPF para emissão de nota fiscal</div>
+    <input class="form-input" type="text" placeholder="Digite seu CPF" />
+
+    <button class="confirm-btn">🟢 PAGAR PEDIDO AGORA</button>
+
+    <div class="safe-pay">
+      🔒 Pagamento seguro via OWEM PAY<br>
+      Sistema de Pagamentos Online
+    </div>
+  `;
+  chat.appendChild(card);
+  scrollBottom();
+
+  const input = card.querySelector("input");
+  const btn = card.querySelector("button");
+
+  btn.onclick = () => {
+    if(!input.value.trim()){
+      input.style.borderColor = "#dc2626";
+      input.focus();
+      return;
+    }
+
+    dados.cpf = input.value.trim();
+    card.remove();
+    stepPix();
+  }
+}
+
+function addUpload(){
+  const card = document.createElement("div");
+  card.className = "form-card";
+  card.innerHTML = `
+    <div class="timer" id="timer">08:00</div>
+
+    <div class="alert">
+      ⚠️ Envie o comprovante aqui para liberarmos sua reserva.
+      Sem o envio, a confirmação pode atrasar sua entrega de amanhã.
+    </div>
+
+    <button class="confirm-btn" style="margin-top:14px;">
+      📎 Enviar comprovante
+    </button>
+  `;
+  chat.appendChild(card);
+  scrollBottom();
+
+  startTimer();
+
+  card.querySelector("button").onclick = () => {
+    card.remove();
+    stepFinal();
+  };
+}
+
+function startTimer(){
+  let seconds = 8 * 60;
+  const timer = document.getElementById("timer");
+
+  const interval = setInterval(()=>{
+    seconds--;
+
+    const min = String(Math.floor(seconds / 60)).padStart(2,"0");
+    const sec = String(seconds % 60).padStart(2,"0");
+
+    if(timer) timer.textContent = `${min}:${sec}`;
+
+    if(seconds <= 0) clearInterval(interval);
+  },1000);
+}
+
+function botSequence(items, callback){
+  let i = 0;
+
+  function next(){
+    if(i >= items.length){
+      if(callback) callback();
+      return;
+    }
+
+    const load = typing();
+
+    setTimeout(()=>{
+      load.remove();
+      addMsg(items[i].text, items[i].name || false);
+      i++;
+      setTimeout(next, 450);
+    }, items[i].delay || 850);
+  }
+
+  next();
+}
+
+function start(){
+  botSequence([
+    {
+      text:"Oi, tudo bem? 😊<br><br>Estamos separando as mudas da rota de entrega de amanhã da sua região.",
+      name:true,
+      delay:900
+    },
+    {
+      text:"Pra garantir sua muda produzindo, preciso confirmar algumas informações do pedido 🌱",
+      delay:850
+    },
+    {
+      text:"Por favor, preencha seu nome abaixo:",
+      delay:700
+    }
+  ], ()=>{
+    addForm("Seu nome", "Digite seu nome", "nome", stepSobrenome);
+  });
+}
+
+function stepSobrenome(){
+  botSequence([
+    {text:`Perfeito, ${dados.nome} 👍`, delay:600},
+    {text:"Agora preencha seu sobrenome:", delay:650}
+  ], ()=>{
+    addForm("Seu sobrenome", "Digite seu sobrenome", "sobrenome", stepTelefone);
+  });
+}
+
+function stepTelefone(){
+  botSequence([
+    {text:"Ótimo 😊", delay:500},
+    {text:"Agora informe o telefone que devemos usar para acompanhar sua entrega:", delay:700}
+  ], ()=>{
+    addForm("Telefone / WhatsApp", "Digite seu telefone", "telefone", stepHorario);
+  });
+}
+
+function stepHorario(){
+  botSequence([
+    {text:"Certo. Agora escolha o melhor horário para receber amanhã:", delay:750}
+  ], ()=>{
+    addOptions();
+  });
+}
+
+function stepLote(){
+  botSequence([
+    {text:"Perfeito 👍", delay:500},
+    {text:"Esse é o lote disponível no momento 🌱", delay:700},
+    {text:"Todas as mudas já vão produzindo e com frutos. Após o pagamento, enviamos fotos reais da sua muda pelo WhatsApp antes da entrega.", delay:900}
+  ], stepResumo);
+}
+
+function stepResumo(){
+  addReceipt();
+
+  botSequence([
+    {text:"Sua reserva está quase pronta.", delay:700},
+    {text:"Para finalizar, informe o CPF para nota fiscal e clique no botão de pagamento abaixo:", delay:800}
+  ], addPaymentForm);
+}
+
+function stepPix(){
+  botSequence([
+    {text:"✅ Pix gerado com sucesso.", delay:700},
+    {text:"Sua reserva está aguardando confirmação de pagamento.", delay:700},
+    {text:"É muito importante enviar o comprovante aqui para tirarmos sua muda da separação da loja. Sem isso, sua entrega de amanhã pode atrasar.", delay:1000}
+  ], addUpload);
+}
+
+function stepFinal(){
+  botSequence([
+    {text:"✅ Comprovante recebido com sucesso.", delay:700},
+    {text:"Sua reserva está confirmada 🌱", delay:700},
+    {text:"Vamos entrar em contato agora pelo seu WhatsApp para confirmar os detalhes da entrega.", delay:850}
+  ]);
+}
+
+start();
+</script>
+
+</body>
+</html>
